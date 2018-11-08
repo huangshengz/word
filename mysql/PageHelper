@@ -1,0 +1,41 @@
+
+1. 得先导包
+
+<!-- 分页插件pagehelper -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <!-- 分页插件pagehelper -->
+        
+        
+2. 配置文件得配置
+
+# 配置分页插件pagehelper
+pagehelper:
+ helperDialect: mysql
+ reasonable: true
+ supportMethodsArguments: true
+ params: count=countSql
+ 
+3. 使用
+
+ @RequestMapping(value = "/listStoreHouse",method = RequestMethod.POST)
+    public Msg listStoreHouse(@RequestBody  StoreHouse entity){
+        // 当前页，当前页显示的条数
+        PageHelper.startPage(entity.getPageNum(), entity.getPageSize());
+        List<StoreHouse> list = houseService.listStoreHouse(entity);
+        PageInfo<StoreHouse> page = new PageInfo<>(list);
+        return msg.success().message(page);
+    }
